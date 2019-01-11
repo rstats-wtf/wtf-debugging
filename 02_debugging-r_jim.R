@@ -1,24 +1,26 @@
-# Given this function, use `trace()` to add a `browser()` statement before the
-# stop
-# Hint: Use as.list(body(fun)) and [[c(1, 2, 3)]] to descend into the expression
-# tree.
-fun <- function() {
-  for (i in 1:10000) {
-    if (i == 9876)
-      stop("Ohno!")
-  }
-}
+# dplyr::na_if(x, y) replaces NA values in `x` with `y`
+# it works when x is a data.frame _without_ Date objects, but fails when there is a Date in the df
+# Can you use our debugging tools to figure out where and why it is failing?
+library(dplyr)
 
-x <- as.list(body(fun))
-x
+test <- tibble(a = lubridate::today() + runif(5) * 30, b = c(1:4, ""), c = c(runif(4), ""), d = c(sample(letters, 4, replace = TRUE), ""))
+test
 
-as.list(x[[2]])
+test %>% na_if("")
 
-as.list(x[[c(2, 4)]])
+traceback()
 
-as.list(x[[c(2, 4, 2)]])
+# The traceback is easier to understand without the pipe involved
+na_if(test, "")
 
-as.list(x[[c(2, 4, 2, 3)]])
+# Also useful to look at the implementation of `na_if()`
+# We get the same error from
+test[test == ""] <- NA
+traceback()
 
-trace(fun, browser, at = list(c(2, 4, 2, 3)))
-fun()
+# And also from
+as.Date("")
+
+# So it seems we need to only use na_if on _character_ columns
+test %>%
+  mutate_if(is.character, ~ na_if(.x, ""))
