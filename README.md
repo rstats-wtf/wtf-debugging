@@ -3,6 +3,9 @@
 ```r
 usethis::use_course("rstats-wtf/wtf-debugging")
 ```
+# Demonstration
+
+* `demo` - has demonstration code from slides
 
 # Exercises
 
