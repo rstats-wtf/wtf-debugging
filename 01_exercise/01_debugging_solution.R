@@ -35,7 +35,6 @@ traceback()
 # modify options for a richer traceback ----------------------------------------
 options(error = rlang::entrace) 
 fruit_avg(fruit, "peach")
-rlang::last_error()
 rlang::last_trace()
 
 # copy and paste traceback results as a comment here to compare with next exercise
