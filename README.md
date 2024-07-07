@@ -1,3 +1,7 @@
+# Slides
+
+<https://rstats-wtf.github.io/wtf-debugging-slides>
+
 # Get started 
 
 ```r
